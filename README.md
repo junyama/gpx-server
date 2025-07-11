@@ -42,6 +42,8 @@ This project is using the following oatpp modules:
 |   |
 |   |- index.html
 |   |- function.js
+|   |- table.js
+|   |- favicon.ico
 |
 |- test/                                 // test folder
 |- utility/install-oatpp-modules.sh      // utility script to install required oatpp-modules.
