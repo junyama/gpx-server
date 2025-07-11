@@ -38,6 +38,11 @@ This project is using the following oatpp modules:
 |   |- SwaggerComponent.hpp              // Swagger-UI config
 |   |- App.cpp                           // main() is here
 |
+|- www/
+|   |
+|   |- index.html
+|   |- function.js
+|
 |- test/                                 // test folder
 |- utility/install-oatpp-modules.sh      // utility script to install required oatpp-modules.
 ```
