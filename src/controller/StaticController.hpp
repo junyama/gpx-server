@@ -64,9 +64,29 @@ public:
     return response;
   }
 
+  ENDPOINT("GET", "/style.css", styleCss)
+  {
+    filePath = projectRoot + WWW_PATH + "style.css";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/javascript");
+    return response;
+  }
+
   ENDPOINT("GET", "/table.js", tableJs)
   {
     filePath = projectRoot + WWW_PATH + "table.js";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/javascript");
+    return response;
+  }
+
+  ENDPOINT("GET", "/table.css", tableCss)
+  {
+    filePath = projectRoot + WWW_PATH + "table.css";
     auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
     auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
     auto response = OutgoingResponse::createShared(Status::CODE_200, body);

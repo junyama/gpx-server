@@ -13,22 +13,27 @@
 /**
  * User REST controller.
  */
-class UserController : public oatpp::web::server::api::ApiController {
+class UserController : public oatpp::web::server::api::ApiController
+{
 public:
   UserController(OATPP_COMPONENT(std::shared_ptr<oatpp::web::mime::ContentMappers>, apiContentMappers))
-    : oatpp::web::server::api::ApiController(apiContentMappers)
-  {}
+      : oatpp::web::server::api::ApiController(apiContentMappers)
+  {
+  }
+
 private:
+  constexpr static const char *TAG = "UserController";
   UserService m_userService; // Create user service.
 public:
-
   static std::shared_ptr<UserController> createShared(
-    OATPP_COMPONENT(std::shared_ptr<oatpp::web::mime::ContentMappers>, apiContentMappers) // Inject ContentMappers
-  ){
+      OATPP_COMPONENT(std::shared_ptr<oatpp::web::mime::ContentMappers>, apiContentMappers) // Inject ContentMappers
+  )
+  {
     return std::make_shared<UserController>(apiContentMappers);
   }
-  
-  ENDPOINT_INFO(createUser) {
+
+  ENDPOINT_INFO(createUser)
+  {
     info->summary = "Create new User";
 
     info->addConsumes<Object<UserDto>>("application/json");
@@ -42,9 +47,9 @@ public:
   {
     return createDtoResponse(Status::CODE_200, m_userService.createUser(userDto));
   }
-  
-  
-  ENDPOINT_INFO(putUser) {
+
+  ENDPOINT_INFO(putUser)
+  {
     info->summary = "Update User by userId";
 
     info->addConsumes<Object<UserDto>>("application/json");
@@ -62,9 +67,9 @@ public:
     userDto->id = userId;
     return createDtoResponse(Status::CODE_200, m_userService.updateUser(userDto));
   }
-  
-  
-  ENDPOINT_INFO(getUserById) {
+
+  ENDPOINT_INFO(getUserById)
+  {
     info->summary = "Get one User by userId";
 
     info->addResponse<Object<UserDto>>(Status::CODE_200, "application/json");
@@ -78,9 +83,9 @@ public:
   {
     return createDtoResponse(Status::CODE_200, m_userService.getUserById(userId));
   }
-  
-  
-  ENDPOINT_INFO(getUsers) {
+
+  ENDPOINT_INFO(getUsers)
+  {
     info->summary = "get all stored users";
 
     info->addResponse<oatpp::Object<UsersPageDto>>(Status::CODE_200, "application/json");
@@ -92,9 +97,9 @@ public:
   {
     return createDtoResponse(Status::CODE_200, m_userService.getAllUsers(offset, limit));
   }
-  
-  
-  ENDPOINT_INFO(deleteUser) {
+
+  ENDPOINT_INFO(deleteUser)
+  {
     info->summary = "Delete User by userId";
 
     info->addResponse<Object<StatusDto>>(Status::CODE_200, "application/json");
@@ -108,6 +113,17 @@ public:
     return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
   }
 
+
+  ENDPOINT_INFO(getNumberOfRecords)
+  {
+    info->summary = "get the total number of the records";
+    info->addResponse<String>(Status::CODE_200, "text/plain");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  }
+  ENDPOINT("GET", "getNumberOfRecords", getNumberOfRecords)
+  {
+    return createDtoResponse(Status::CODE_200, m_userService.countUsers());
+  }
 };
 
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
