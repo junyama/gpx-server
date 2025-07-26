@@ -8,6 +8,8 @@
 #include "oatpp/web/mime/ContentMappers.hpp"
 #include "oatpp/macro/codegen.hpp"
 
+#include <unistd.h> //for sleep
+
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
 /**
@@ -113,7 +115,6 @@ public:
     return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
   }
 
-
   ENDPOINT_INFO(getNumberOfRecords)
   {
     info->summary = "get the total number of the records";
@@ -123,6 +124,43 @@ public:
   ENDPOINT("GET", "getNumberOfRecords", getNumberOfRecords)
   {
     return createDtoResponse(Status::CODE_200, m_userService.countUsers());
+  }
+
+  ENDPOINT_INFO(exportGpx)
+  {
+    info->summary = "export gpx file to local storage";
+    info->addResponse<String>(Status::CODE_200, "text/plain");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  }
+  ENDPOINT("GET", "exportGpx", exportGpx)
+  {
+    int offset = 0;
+    int limit = 10;
+    int itemsLength = 10;
+    String data;
+    String fileName;
+    system("rm -rf PersonalPOI");
+    system("mkdir PersonalPOI");
+
+    do
+    {
+      auto page = m_userService.getAllUsers(offset, limit);
+      itemsLength = page->count;
+      for (int i = 0; i < page->count; i++)
+      {
+        data = page->items[i]->gpx;
+        fileName = "PersonalPOI/" + page->items[i]->poiFileName;
+        data.saveToFile(fileName->c_str());
+        OATPP_LOGd(TAG, "gpx was saved to {}", fileName);
+      }
+      offset += limit;
+    } while (itemsLength != limit);
+    //system("cd /home/junichi/github/gpx-server/www"); 
+    //sleep(1);
+    system("zip -r PersonalPOI.zip PersonalPOI/");
+
+    //return createDtoResponse(Status::CODE_200, m_userService.countUsers());
+    return createResponse(Status::CODE_200, "OK");
   }
 };
 

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>gpx Database Console</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>MB POI Management</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -15,28 +12,26 @@
         integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
         crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <!--<link rel="stylesheet" href="style.css" type="text/css" />-->
     <link rel="stylesheet" href="table.css" type="text/css" />
 
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript" src="table.js"></script>
 
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKbQzWJX-yx5oELJD47-inZpah7qakWpo&libraries=maps,marker"
-        defer>
-        </script>
-
+    <link rel="stylesheet" type="text/css" href="./map.css" />
+    <script type="text/javascript" src="./map.js"></script>
 </head>
 
-<body id="indicator-target3">
+<body>
+
     <div class="container-fluid">
         <div class="table-responsive ">
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row m-2">
                         <div class="col-xs-6">
-                            <h2>POI Management Console</h2>
+                            <h2>Mercedes Benz POI Management Console</h2>
                         </div>
                         <div class="col-xs-6">
                             <button type="button" class="btn btn-primary" style="font-size: medium;"
@@ -102,14 +97,25 @@
                     </div>
                     <div class="col">
                         <div class="d-grid gap-2 col-12 mx-auto">
-                            <a class="btn btn-outline-primary" href="/search.html" target="_blank"
+                            <input id="numberOfRecordsButtonId" type="button" class="btn btn-outline-primary"
+                                onclick="exportGpx()" value="Export gpx files">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <a class="btn btn-outline-primary" href="PersonalPOI.zip">Download zip</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <a class="btn btn-outline-primary" href="swagger/ui" target="_blank"
                                 rel="noopener noreferrer">Swagger
                                 (test API)</a>
                         </div>
                     </div>
                 </div>
 
-                <table width="100%" border="0" cellspacing="2" cellpadding="2" bordercolor="black">
+                <!--<table width="100%" border="0" cellspacing="2" cellpadding="2" bordercolor="black">
                     <tbody>
                         <tr>
                             <td align='center' valign='top'>
@@ -249,11 +255,10 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table>-->
             </div>
         </div>
     </div>
-
     <!-- Add Modal HTML -->
     <div id="addEmployeeModal" class="modal fade" value="0">
         <div id="add-id" hidden></div>
@@ -299,6 +304,7 @@
                                 <option value='CAT_TRAVEL'>観光地</option>
                                 <option value='CAT_CAR'>車</option>
                                 <option value='CAT_THEATER'>劇場</option>
+                                <option value='CAT_SHOPPING'>ショッピング</option>
                                 <option value='CAT_BUSINESS'>仕事</option>
                                 <option value='CAT_TEMPLE'>神社・仏閣</option>
                                 <option value='CAT_MUSEUM'>美術館・博物館</option>
@@ -395,6 +401,7 @@
                                 <option value='CAT_TRAVEL'>観光地</option>
                                 <option value='CAT_CAR'>車</option>
                                 <option value='CAT_THEATER'>劇場</option>
+                                <option value='CAT_SHOPPING'>ショッピング</option>
                                 <option value='CAT_BUSINESS'>仕事</option>
                                 <option value='CAT_TEMPLE'>神社・仏閣</option>
                                 <option value='CAT_MUSEUM'>美術館・博物館</option>
@@ -472,10 +479,83 @@
             </div>
         </div>
     </div>
-    <script>
-        initPage();
-    </script>
-    
+
+    <div class="row m-2">
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <input type="text" class="form-control" id="keyWord" value="ベンツ厚木">
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <input type="button" class="btn btn-outline-primary" value="Search" onclick="initMap();">
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <div class="d-grid gap-2 col-15 mx-auto">
+                    <input type="text" class="form-control" id="poiNameInputId" value=""> 
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <div class="d-grid gap-2 col-15 mx-auto">
+                    <input type="text" class="form-control" id="addressInputId" value="">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <div class="d-grid gap-2 col-12 mx-auto">
+                    <select name="category" class="form-control" id="categorySelectorId">
+                        <option value='CAT_TRAVEL'>観光地</option>
+                        <option value='CAT_CAR'>車</option>
+                        <option value='CAT_THEATER'>劇場</option>
+                        <option value='CAT_SHOPPING'>ショッピング</option>
+                        <option value='CAT_BUSINESS'>仕事</option>
+                        <option value='CAT_TEMPLE'>神社・仏閣</option>
+                        <option value='CAT_MUSEUM'>美術館・博物館</option>
+                        <option value='CAT_HOTEL'>ホテル・旅館</option>
+                        <option value='CAT_HOSPITAL'>病院</option>
+                        <option value='CAT_GOVERMENT'>役所</option>
+                        <option value='CAT_RESTAURANT'>レストラン</option>
+                        <option value='CAT_OTHERS'>その他</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <div class="d-grid gap-2 col-12 mx-auto">
+                    <select name="iconId" class="form-control" id="iconSelectorId">
+                        <option value=1>目的地＠</option>
+                        <option value=6>カメラ</option>
+                        <option value=7>ハート</option>
+                        <option value=11>レストラン</option>
+                        <option value=12>マップピン</option>
+                        <option value=13>車</option>
+                        <option value=14>ホテル</option>
+                        <option value=15>ショッピング</option>
+                        <option value=19>目的地</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <input type="button" class="btn btn-outline-primary" value="Register" onclick='registerPOI()'>
+            </div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- prettier-ignore -->
+    <script>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+            ({ key: "AIzaSyAKbQzWJX-yx5oELJD47-inZpah7qakWpo", v: "weekly" });</script>
+
+    <script>initPage(); initMap();</script>
 </body>
 
 </html>

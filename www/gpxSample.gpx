@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpx:gpx creator="" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gpx="http://www.topografix.com/GPX/1/1"
+    xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd"
+    xmlns:gpxd="http://www.daimler.com/DaimlerGPXExtensions/V2.4">
+    <metadata><time>2025-01-11T16:59:55Z</time></metadata>
+    <gpx:wpt lat="33.118946" lon="131.806963">
+        <gpx:name>クレド臼杵</gpx:name>
+        <gpx:extensions>
+            <gpxd:WptExtension>
+                <gpxd:WptIconId IconId="14"></gpxd:WptIconId>
+                <gpxd:POICategory Cat="ホテル・旅館"></gpxd:POICategory>
+                <gpxd:Activity Active="true" Level="warning" Unit="second" Value="30"></gpxd:Activity>
+                <gpxd:Presentation ShowOnMap="true"></gpxd:Presentation>
+                <gpxd:Address ISO="JP" Country="J" State="大分県" City="臼杵市" CityCenter="海添"
+                    Street="" Street2="" HouseNo="" ZIP="875-0042"></gpxd:Address>
+                <gpxd:Phone Default=""></gpxd:Phone>
+            </gpxd:WptExtension>
+        </gpx:extensions>
+    </gpx:wpt>
+</gpx:gpx>

@@ -70,7 +70,7 @@ public:
     auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
     auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
     auto response = OutgoingResponse::createShared(Status::CODE_200, body);
-    response->putHeader(Header::CONTENT_TYPE, "text/javascript");
+    response->putHeader(Header::CONTENT_TYPE, "text/css");
     return response;
   }
 
@@ -93,6 +93,57 @@ public:
     response->putHeader(Header::CONTENT_TYPE, "text/javascript");
     return response;
   }
+
+  ENDPOINT("GET", "/gpxSample.gpx", gpxSample)
+  {
+    filePath = projectRoot + WWW_PATH + "gpxSample.gpx";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/plain");
+    return response;
+  }
+
+  ENDPOINT("GET", "/map.html", map)
+  {
+    filePath = projectRoot + WWW_PATH + "map.html";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/html");
+    return response;
+  }
+
+  ENDPOINT("GET", "/map.css", mapCss)
+  {
+    filePath = projectRoot + WWW_PATH + "map.css";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/css");
+    return response;
+  }
+
+  ENDPOINT("GET", "/map.js", mapJs)
+  {
+    filePath = projectRoot + WWW_PATH + "map.js";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/javascript");
+    return response;
+  }
+
+  ENDPOINT("GET", "/PersonalPOI.zip", PersonalPOI)
+  {
+    filePath = projectRoot + "PersonalPOI.zip";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "application/zip");
+    return response;
+  }
+  
 };
 
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen

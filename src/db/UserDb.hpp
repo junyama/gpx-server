@@ -42,6 +42,14 @@ public:
             " latitude=:user.latitude, "
             " longtitude=:user.longtitude, "
             " address1=:user.address1, "
+            " address1=:user.address2, "
+            " address1=:user.address3, "
+            " zip=:user.zip, "
+            " category=:user.category, "
+            " icon_id=:user.icon_id, "
+            " poi_file_name=:user.poi_file_name, "
+            " reg_time=:user.reg_time, "
+            " gpx=:user.gpx "
 
             "WHERE "
             " id=:user.id;",

@@ -73,6 +73,10 @@ table.table tr th:last-child {
     width: 100px;
 }
 
+.table {
+    font-size: small;
+}
+
 table.table-striped tbody tr:nth-of-type(odd) {
     background-color: #fcfcfc;
 }
@@ -198,7 +202,7 @@ table.table .avatar {
     z-index: 2;
 }
 
-.custom-checkbox input[type="checkbox"]:checked + label:after {
+.custom-checkbox input[type="checkbox"]:checked+label:after {
     content: '';
     position: absolute;
     left: 6px;
@@ -212,16 +216,16 @@ table.table .avatar {
     transform: rotateZ(45deg);
 }
 
-.custom-checkbox input[type="checkbox"]:checked + label:before {
+.custom-checkbox input[type="checkbox"]:checked+label:before {
     border-color: #03A9F4;
     background: #03A9F4;
 }
 
-.custom-checkbox input[type="checkbox"]:checked + label:after {
+.custom-checkbox input[type="checkbox"]:checked+label:after {
     border-color: #fff;
 }
 
-.custom-checkbox input[type="checkbox"]:disabled + label:before {
+.custom-checkbox input[type="checkbox"]:disabled+label:before {
     color: #b8b8b8;
     cursor: auto;
     box-shadow: none;
