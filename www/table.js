@@ -67,20 +67,12 @@ function applyFilter() {
     loadDb((CurrentPage - 1) * Limit, Limit);
     document.getElementById("numEntryId").value = "-----";
     numberOfRecords();
+    Filter = false;
 }
 
 function createFilterJsonStr(index) {
-    /*
-    let chickIdValue = document.getElementById("poiNameFilterId").value;
-    if (!chickIdValue) chickIdValue = 0;
-    let userIdValue = document.getElementById("prefectureFilterId").value;
-    if (!userIdValue) userIdValue = 0;
-    let scoreValue = document.getElementById("cityFilterId").value;
-    if (!scoreValue) scoreValue = 0;
-    */
-    let json = actionJson;
-
-    /*
+    let json = {};
+    //
     let value = document.getElementById("poiNameFilterId").value;
     if (value) json.poi_namae = value;
     else json.poi_namae = "*";
@@ -102,7 +94,6 @@ function createFilterJsonStr(index) {
     json.longtitude = "*";
     json.id = 0;
     json.gpx = "*";
-    */
 
     return JSON.stringify(json);
 }
@@ -115,6 +106,8 @@ function loadDb(offset, limit) {
             type: "POST",
             url: '/selectRecords/offset/' + offset + '/limit/' + limit,
             data: createFilterJsonStr(),
+            contentType: "application/json; charset=utf-8", // Specifies the content type of the data being sent
+            dataType: "json", // Expected data type of the response from the server
             async: false,
             success: function (json) {
                 PageIndexArray = [];
@@ -446,19 +439,21 @@ function numberOfRecords() {
             }
         });
     else {
+        /*
         let chickIdValue = document.getElementById("chickIdFilterId").value;
         if (!chickIdValue) chickIdValue = 0;
         let userIdValue = document.getElementById("userIdFilterId").value;
         if (!userIdValue) userIdValue = 0;
+        */
         $.ajax({
             type: "POST",
             url: '/getNumberOfFilteredRecords',
             data: createFilterJsonStr(),
+            contentType: "application/json; charset=utf-8", // Specifies the content type of the data being sent
+            dataType: "json", // Expected data type of the response from the server
             async: false,
-            success: function (jsonStr) {
-                let count = JSON.parse(jsonStr)[0]['count(*)'];
-                document.getElementById("numEntryId").value = count;
-                getIndexRange();
+            success: function (json) {
+                document.getElementById("numEntryId").value = json.count;
             },
             error: function (json) {
                 alert(json.responseJSON.message);

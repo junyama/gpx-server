@@ -184,7 +184,6 @@ public:
     try
     {
       auto usersPageDto = m_userService.selectUsers(offset, limit, userDto);
-      OATPP_LOGd(TAG, "usersPageDto");
       return createDtoResponse(Status::CODE_200, usersPageDto);
     }
     catch (std::runtime_error e)
@@ -197,6 +196,18 @@ public:
       auto response = createDtoResponse(Status::CODE_500, error);
       return response;
     }
+  }
+
+  ENDPOINT_INFO(getNumberOfFilteredRecords)
+  {
+    info->summary = "get the total number of the filtered records";
+    info->addConsumes<Object<UserDto>>("application/json");
+    info->addResponse<String>(Status::CODE_200, "text/plain");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  }
+  ENDPOINT("POST", "getNumberOfFilteredRecords", getNumberOfFilteredRecords, BODY_DTO(Object<UserDto>, userDto))
+  {
+    return createDtoResponse(Status::CODE_200, m_userService.countFilteredUsers(userDto)); 
   }
 };
 

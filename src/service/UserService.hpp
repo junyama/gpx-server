@@ -16,6 +16,8 @@ private:
 
 private:
   OATPP_COMPONENT(std::shared_ptr<UserDb>, m_database); // Inject database component
+  std::string whereQueryString(oatpp::Object<UserDto> dto);
+
 public:
   oatpp::Object<UserDto> createUser(const oatpp::Object<UserDto> &dto);
   oatpp::Object<UserDto> updateUser(const oatpp::Object<UserDto> &dto);
@@ -25,6 +27,7 @@ public:
 
   oatpp::Object<PageDto<oatpp::Object<UserDto>>> countUsers();
   oatpp::Object<PageDto<oatpp::Object<UserDto>>> selectUsers(const oatpp::UInt32 &offset, const oatpp::UInt32 &limit, const oatpp::Object<UserDto> &dto);
+  oatpp::Object<PageDto<oatpp::Object<UserDto>>> countFilteredUsers(const oatpp::Object<UserDto> &dto);
 };
 
 #endif // CRUD_USERSERVICE_HPP

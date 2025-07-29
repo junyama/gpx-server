@@ -24,29 +24,30 @@ ENUM(Category, v_int32,
      VALUE(HOSPITAL, 8, "CAT_HOSPITAL"),
      VALUE(GOVERMENT, 9, "CAT_GOVERMENT"),
      VALUE(RESTAURANT, 10, "CAT_RESTAURANT"),
-     VALUE(OTHERS, 11, "CAT_OTHERS"))
+     VALUE(OTHERS, 11, "CAT_OTHERS"),
+     VALUE(UNDEFINED, 99, "CAT_UNDEFINED"))
 
 class UserDto : public oatpp::DTO
 {
 
-  DTO_INIT(UserDto, DTO)
+     DTO_INIT(UserDto, DTO)
 
-  DTO_FIELD(Int32, id);
-  DTO_FIELD(String, userName, "username") = "junichi";
-  //DTO_FIELD(Enum<Role>::AsString, role, "role") = "ROLE_GUEST";
+     DTO_FIELD(Int32, id);
+     DTO_FIELD(String, userName, "username") = "junichi";
+     // DTO_FIELD(Enum<Role>::AsString, role, "role") = "ROLE_GUEST";
 
-  DTO_FIELD(String, poiName, "poi_name");
-  DTO_FIELD(String, latitude, "latitude");
-  DTO_FIELD(String, longtitude, "longtitude");
-  DTO_FIELD(String, address1, "address1");
-  DTO_FIELD(String, address2, "address2");
-  DTO_FIELD(String, address3, "address3");
-  DTO_FIELD(String, zip, "zip");
-  DTO_FIELD(Enum<Category>::AsString, category, "category");
-  DTO_FIELD(UInt8, iconId, "icon_id");
-  DTO_FIELD(String, poiFileName, "poi_file_name");
-  DTO_FIELD(String, regTime, "reg_time");
-  DTO_FIELD(String, gpx, "gpx");
+     DTO_FIELD(String, poiName, "poi_name");
+     DTO_FIELD(String, latitude, "latitude");
+     DTO_FIELD(String, longtitude, "longtitude");
+     DTO_FIELD(String, address1, "address1");
+     DTO_FIELD(String, address2, "address2");
+     DTO_FIELD(String, address3, "address3");
+     DTO_FIELD(String, zip, "zip");
+     DTO_FIELD(Enum<Category>::AsString, category, "category");
+     DTO_FIELD(UInt8, iconId, "icon_id");
+     DTO_FIELD(String, poiFileName, "poi_file_name");
+     DTO_FIELD(String, regTime, "reg_time");
+     DTO_FIELD(String, gpx, "gpx");
 };
 
 #include OATPP_CODEGEN_END(DTO)
