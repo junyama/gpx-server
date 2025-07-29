@@ -58,10 +58,10 @@ function userDtoStr(formName) {
     if (value) actionJson.poi_file_name = value;
     value = form.elements["regTime"].value;
     if (value) actionJson.reg_time = value;
+    updateGpx(form);
     value = form.elements["gpxFileContent"].value;
-    if (!value) form.elements["gpxFileContent"].value = GpxSample;
-    gpxUpdate(form.elements["gpxFileContent"].value, formName);
-    value = form.elements["gpxFileContent"].value;
+    //if (!value) form.elements["gpxFileContent"].value = GpxSample;
+    //value = form.elements["gpxFileContent"].value;
     if (value) actionJson.gpx = value;
     let actionJsonStr = JSON.stringify(actionJson);
     //alert(actionJsonStr);
@@ -90,8 +90,10 @@ function createNewRecord() {
     catch (error) {
         console.error(error.message);
     }
+    numberOfRecords();
 }
 
+/*
 function updateRecord(id) {
     $.ajax({
         url: "users/" + id, // The URL to send the request to
@@ -119,6 +121,7 @@ function updateRecord(id) {
         }
     });
 }
+*/
 
 function editRecord(id) {
     if (id) {
@@ -261,6 +264,7 @@ function deleteRecord(id) {
     } else {
         deleteCheckedUsers(0, document.getElementById("tableBody").childElementCount);
     }
+    numberOfRecords();
 }
 
 /*
@@ -288,6 +292,7 @@ function registerPOI() {
     form.elements["regTime"].value = getRegTime();
 
     document.getElementById("addButtonId").dispatchEvent(new PointerEvent("click"));
+    numberOfRecords();
 }
 
 /*

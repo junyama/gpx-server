@@ -100,7 +100,7 @@ public:
     auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
     auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
     auto response = OutgoingResponse::createShared(Status::CODE_200, body);
-    response->putHeader(Header::CONTENT_TYPE, "text/plain");
+    response->putHeader(Header::CONTENT_TYPE, "text/xml");
     return response;
   }
 
@@ -134,6 +134,7 @@ public:
     return response;
   }
 
+  /*
   ENDPOINT("GET", "/PersonalPOI.zip", PersonalPOI)
   {
     filePath = projectRoot + "PersonalPOI.zip";
@@ -143,7 +144,27 @@ public:
     response->putHeader(Header::CONTENT_TYPE, "application/zip");
     return response;
   }
-  
+  */
+
+  ENDPOINT("GET", "/gpx/{fileName}", getPoiFile, PATH(String, fileName))
+  {
+    filePath = projectRoot + "PersonalPOI/" + fileName;
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "text/xml");
+    return response;
+  }
+
+  ENDPOINT("GET", "/gpxIndex", getGpxIndex)
+  {
+    filePath = projectRoot + "PersonalPOI/index.json";
+    auto fileStream = std::make_shared<oatpp::data::stream::FileInputStream>(filePath.c_str());
+    auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(fileStream);
+    auto response = OutgoingResponse::createShared(Status::CODE_200, body);
+    response->putHeader(Header::CONTENT_TYPE, "application/json");
+    return response;
+  }
 };
 
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen

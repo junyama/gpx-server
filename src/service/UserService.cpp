@@ -81,3 +81,9 @@ oatpp::Object<PageDto<oatpp::Object<UserDto>>> UserService::countUsers()
 
   return page;
 }
+
+oatpp::Object<PageDto<oatpp::Object<UserDto>>> UserService::selectUsers(const oatpp::UInt32 &offset, const oatpp::UInt32 &limit, const oatpp::Object<UserDto> &dto)
+{
+  auto page = PageDto<oatpp::Object<UserDto>>::createShared();
+  return page;
+}

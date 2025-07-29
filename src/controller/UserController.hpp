@@ -139,6 +139,7 @@ public:
     int itemsLength = 10;
     String data;
     String fileName;
+    std::string fileIndexStr = "[";
     system("rm -rf PersonalPOI");
     system("mkdir PersonalPOI");
 
@@ -149,18 +150,53 @@ public:
       for (int i = 0; i < page->count; i++)
       {
         data = page->items[i]->gpx;
-        fileName = "PersonalPOI/" + page->items[i]->poiFileName;
+        fileName = page->items[i]->poiFileName;
+        fileIndexStr = fileIndexStr + "\"" + fileName + "\", ";
+        fileName = "PersonalPOI/" + fileName;
         data.saveToFile(fileName->c_str());
         OATPP_LOGd(TAG, "gpx was saved to {}", fileName);
       }
       offset += limit;
-    } while (itemsLength != limit);
-    //system("cd /home/junichi/github/gpx-server/www"); 
-    //sleep(1);
+      OATPP_LOGd(TAG, "itemsLength: {}, limit: {}", itemsLength, limit);
+    } while (itemsLength == limit);
+    int length = fileIndexStr.length();
+    fileIndexStr = fileIndexStr.substr(0, length - 2);
+    fileIndexStr = fileIndexStr + "]";
+    OATPP_LOGd(TAG, "fileIndexStr: {}", fileIndexStr.c_str());
+    String(fileIndexStr.c_str()).saveToFile("PersonalPOI/index.json");
+    system("rm PersonalPOI.zip");
     system("zip -r PersonalPOI.zip PersonalPOI/");
-
-    //return createDtoResponse(Status::CODE_200, m_userService.countUsers());
     return createResponse(Status::CODE_200, "OK");
+  }
+
+  ENDPOINT_INFO(selectRecords)
+  {
+    info->summary = "get selected records";
+    info->pathParams.add<UInt32>("offset").description = "offset to get the records";
+    info->pathParams.add<UInt32>("limit").description = "limit to get the records";
+    info->addConsumes<Object<UserDto>>("application/json");
+
+    info->addResponse<oatpp::Object<UsersPageDto>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  }
+  ENDPOINT("POST", "selectRecords/offset/{offset}/limit/{limit}", selectRecords, PATH(UInt32, offset), PATH(UInt32, limit), BODY_DTO(Object<UserDto>, userDto))
+  {
+    try
+    {
+      auto usersPageDto = m_userService.selectUsers(offset, limit, userDto);
+      OATPP_LOGd(TAG, "usersPageDto");
+      return createDtoResponse(Status::CODE_200, usersPageDto);
+    }
+    catch (std::runtime_error e)
+    {
+      OATPP_LOGe(TAG, "runtime error happend at selectRecords ENDPOINT {}", e.what());
+      auto error = StatusDto::createShared();
+      error->status = "ERROR";
+      error->code = 500;
+      error->message = e.what();
+      auto response = createDtoResponse(Status::CODE_500, error);
+      return response;
+    }
   }
 };
 

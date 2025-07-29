@@ -85,6 +85,75 @@
                 </div>
                 <div class="row m-2">
                     <div class="col">
+                        <input type="text" class="form-control" id="poiNameFilterId" placeholder="POI Name">
+                    </div>
+                    <div class="col">
+                        <select name="prefectureSelector" class="form-select" id="prefectureFilterId"
+                            onchange="//updateChickIdSelectorOptions(this);">
+                            <option value="*" disabled selected>Prefecture</option>
+                            <option value="北海道">北海道</option>
+                            <option value="青森県">青森県</option>
+                            <option value="岩手県">岩手県</option>
+                            <option value="宮城県">宮城県</option>
+                            <option value="秋田県">秋田県</option>
+                            <option value="山形県">山形県</option>
+                            <option value="福島県">福島県</option>
+                            <option value="茨城県">茨城県</option>
+                            <option value="栃木県">栃木県</option>
+                            <option value="群馬県">群馬県</option>
+                            <option value="埼玉県">埼玉県</option>
+                            <option value="千葉県">千葉県</option>
+                            <option value="東京都">東京都</option>
+                            <option value="神奈川県">神奈川県</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="cityFilterId" placeholder="City" value="">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="townFilterId" placeholder="Town">
+                    </div>
+                    <div class="col">
+                        <select name="categorySelector" class="form-select" id="categoryFilterId">
+                            <option value="CAT_TRAVEL" disabled selected>Category</option>
+                            <option value="CAT_TRAVEL">観光地</option>
+                            <option value="CAT_CAR">車</option>
+                            <option value="CAT_THEATER">劇場</option>
+                            <option value="CAT_SHOPPING">ショッピング</option>
+                            <option value="CAT_BUSINESS">仕事</option>
+                            <option value="CAT_TEMPLE">神社・仏閣</option>
+                            <option value="CAT_MUSEUM">美術館・博物館</option>
+                            <option value="CAT_HOTEL">ホテル・旅館</option>
+                            <option value="CAT_HOSPITAL">病院</option>
+                            <option value="CAT_GOVERMENT">役所</option>
+                            <option value="CAT_RESTAURANT">レストラン</option>
+                            <option value="CAT_OTHERS">その他</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select name="iconSelector" class="form-select" id="iconFilterId">
+                            <option value=0 disabled selected>Icon</option>
+                            <option value=1>目的地＠</option>
+                            <option value=6>カメラ</option>
+                            <option value=7>ハート</option>
+                            <option value=11>レストラン</option>
+                            <option value=12>マップピン</option>
+                            <option value=13>車</option>
+                            <option value=14>ホテル</option>
+                            <option value=15>ショッピング</option>
+                            <option value=19>目的地</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <input type="button" class="btn btn-outline-primary" onclick="applyFilter();"
+                                value="Apply Filter">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row m-2">
+                    <div class="col">
                         <div class="d-grid gap-2 col-12 mx-auto">
                             <input id="numberOfRecordsButtonId" type="button" class="btn btn-outline-primary"
                                 onclick="numberOfRecords()" value="Number of Records">
@@ -343,7 +412,7 @@
                             <div>
                                 <input name="gpxFileContent" type="text" style="display:none">
                                 <input id="imageFileReadButtonId" class="btn btn-outline-primary" type="file"
-                                    onchange='readGpx(event);' value="Load from a file">
+                                    onchange='readGpx(event);' value="Load from a file" multiple>
                             </div>
                         </div>
                     </div>
@@ -488,13 +557,14 @@
         </div>
         <div class="col">
             <div class="d-grid gap-2 col-12 mx-auto">
-                <input type="button" class="btn btn-outline-primary" value="Search" onclick="initMap();">
+                <input type="button" class="btn btn-outline-primary" id="btn_search" value="Search"
+                    onclick="initMap();">
             </div>
         </div>
         <div class="col">
             <div class="d-grid gap-2 col-12 mx-auto">
                 <div class="d-grid gap-2 col-15 mx-auto">
-                    <input type="text" class="form-control" id="poiNameInputId" value=""> 
+                    <input type="text" class="form-control" id="poiNameInputId" value="">
                 </div>
             </div>
         </div>

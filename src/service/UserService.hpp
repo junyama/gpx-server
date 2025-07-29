@@ -24,6 +24,7 @@ public:
   oatpp::Object<StatusDto> deleteUserById(const oatpp::Int32 &id);
 
   oatpp::Object<PageDto<oatpp::Object<UserDto>>> countUsers();
+  oatpp::Object<PageDto<oatpp::Object<UserDto>>> selectUsers(const oatpp::UInt32 &offset, const oatpp::UInt32 &limit, const oatpp::Object<UserDto> &dto);
 };
 
 #endif // CRUD_USERSERVICE_HPP

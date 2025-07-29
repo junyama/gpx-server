@@ -35,8 +35,10 @@ function initPage() {
     $.ajax({
         type: "GET",
         url: '/gpxSample.gpx',
-        success: function (response) {
-            GpxSample = response;
+        success: function (responseXML) {
+            const serializer = new XMLSerializer();
+            GpxSample = serializer.serializeToString(responseXML);
+            //GpxSample = responseXML;
         },
         error: function (json) {
             if (json.responseJSON)
@@ -45,7 +47,64 @@ function initPage() {
                 alert(json.statusText);
         }
     });
+    numberOfRecords();
 
+    const text_form = document.getElementById("keyWord");
+    text_form.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            const btn_search = document.getElementById("btn_search");
+            btn_search.dispatchEvent(new PointerEvent("click"));  // clickイベントを発生させて、送り込む
+            e.preventDefault();  // Enterキー入力を他に伝搬させないために
+        }
+        return false;
+    });
+
+}
+
+function applyFilter() {
+    Filter = true;
+    document.getElementById("numberOfRecordsButtonId").value = "Number of Filtered Records";
+    loadDb((CurrentPage - 1) * Limit, Limit);
+    document.getElementById("numEntryId").value = "-----";
+    numberOfRecords();
+}
+
+function createFilterJsonStr(index) {
+    /*
+    let chickIdValue = document.getElementById("poiNameFilterId").value;
+    if (!chickIdValue) chickIdValue = 0;
+    let userIdValue = document.getElementById("prefectureFilterId").value;
+    if (!userIdValue) userIdValue = 0;
+    let scoreValue = document.getElementById("cityFilterId").value;
+    if (!scoreValue) scoreValue = 0;
+    */
+    let json = actionJson;
+
+    /*
+    let value = document.getElementById("poiNameFilterId").value;
+    if (value) json.poi_namae = value;
+    else json.poi_namae = "*";
+    json.address1 = document.getElementById("prefectureFilterId").value;
+    value = document.getElementById("cityFilterId").value;
+    if (value) json.address2 = value;
+    else json.address2 = "*";
+    value = document.getElementById("townFilterId").value;
+    if (value) json.address3 = value;
+    else json.address3 = "*";
+    json.category = document.getElementById("categoryFilterId").value;
+    json.icon_id = Number(document.getElementById("iconFilterId").value);
+
+    json.reg_time = "*";
+    json.usename = "*";
+    json.zip = "*";
+    json.poi_file_name = "*";
+    json.latitude = "*";
+    json.longtitude = "*";
+    json.id = 0;
+    json.gpx = "*";
+    */
+
+    return JSON.stringify(json);
 }
 
 let Filter = false;
@@ -54,7 +113,7 @@ function loadDb(offset, limit) {
     if (Filter)
         $.ajax({
             type: "POST",
-            url: '/selectImages/offset/' + offset + '/limit/' + limit,
+            url: '/selectRecords/offset/' + offset + '/limit/' + limit,
             data: createFilterJsonStr(),
             async: false,
             success: function (json) {
@@ -126,6 +185,8 @@ function createRow(json) {
         case "CAT_CAR": category = "車";
             break;
         case "CAT_THEATER": category = "劇場";
+            break;
+        case "CAT_SHOPPING": category = "ショッピング";
             break;
         case "CAT_BUSINESS": category = "仕事";
             break;
@@ -241,6 +302,8 @@ function addRow2(json, i) {
         case "CAT_CAR": category = "車";
             break;
         case "CAT_THEATER": category = "劇場";
+            break;
+        case "CAT_SHOPPING": category = "ショッピング";
             break;
         case "CAT_BUSINESS": category = "仕事";
             break;
@@ -364,6 +427,7 @@ function deleteCheckedUsers(i, count) {
         //setTimeout(loadDb((CurrentPage - 1) * Limit, Limit), 500);
         loadDb((CurrentPage - 1) * Limit, Limit);
     }
+    numberOfRecords();
 }
 
 function numberOfRecords() {
@@ -527,20 +591,26 @@ function jumpPageMenu(jumpPage) {
 }
 
 function readGpx(event) {
-    const file = event.target.files[0];
-    document.forms["createUser"].elements["poiFileName"].value = file.name;
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        const fileContent = e.target.result;
-        console.log(fileContent);
-        gpxUpdate(fileContent, "createUser");
-        //document.getElementById(outputTextArea).value = data;
-    };
-    reader.readAsText(file);
-    //reader.readAsDataURL(file);
+    const files = event.target.files;
+    for (i = 0; i < files.length; i++) {
+        document.forms["createUser"].elements["poiFileName"].value = files[i].name;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const fileContent = e.target.result;
+            console.log(fileContent);
+            importGpx(fileContent, "createUser");
+            //document.getElementById(outputTextArea).value = data;        
+            document.getElementById("addButtonId").dispatchEvent(new PointerEvent("click"));
+
+        };
+        reader.readAsText(files[i]);
+        //alert(files[i].name + " loaded");
+
+        //reader.readAsDataURL(file);
+    }
 }
 
-function gpxUpdate(xmlString, formName) {
+function importGpx(xmlString, formName) {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, 'application/xml');
 
@@ -577,6 +647,9 @@ function gpxUpdate(xmlString, formName) {
             case "劇場":
                 form.elements["category"].value = 'CAT_THEATER';
                 break;
+            case "ショッピング":
+                form.elements["category"].value = 'CAT_SHOPPING';
+                break;
             case "仕事":
                 form.elements["category"].value = 'CAT_BUSINESS';
                 break;
@@ -599,6 +672,76 @@ function gpxUpdate(xmlString, formName) {
                 form.elements["category"].value = 'CAT_OTHERS';
         }
     }
+}
+
+function updateGpx(form) {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(GpxSample, 'application/xml');
+
+    // パース結果の検証
+    if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
+        // エラー処理
+        console.error('XMLのパースエラー');
+    } else {
+        // 取得したDOMオブジェクトの操作
+        let element = xmlDoc.getElementsByTagName("gpx:name")[0];
+        element.innerHTML = form.elements["poiName"].value;
+        element = xmlDoc.getElementsByTagName("gpxd:Address")[0];
+        element.setAttribute("State", form.elements["address1"].value);
+        element.setAttribute("City", form.elements["address2"].value);
+        element.setAttribute("CityCenter", form.elements["address3"].value);
+        element.setAttribute("ZIP", form.elements["zip"].value);
+
+        element = xmlDoc.getElementsByTagName("gpx:wpt")[0];
+        element.setAttribute("lat", form.elements["latitude"].value);
+        element.setAttribute("lon", form.elements["longtitude"].value);
+        element = xmlDoc.getElementsByTagName("time")[0];
+        element.innerHTML = form.elements["regTime"].value;
+        element = xmlDoc.getElementsByTagName("gpxd:WptIconId")[0];
+        element.setAttribute("IconId", form.elements["iconId"].value);
+
+        element = xmlDoc.getElementsByTagName("gpxd:WptIconId")[0];
+        element.setAttribute("IconId", form.elements["iconId"].value);
+        element = xmlDoc.getElementsByTagName("gpxd:POICategory")[0];
+
+        switch (form.elements["category"].value) {
+            case "CAT_TRAVEL":
+                element.setAttribute("Cat", "観光地");
+                break;
+            case "CAT_CAR":
+                element.setAttribute("Cat", "車");
+            case "CAT_THEATER":
+                element.setAttribute("Cat", "劇場");
+                break;
+            case "CAT_SHOPPING":
+                element.setAttribute("Cat", "ショッピング");
+                break;
+            case "CAT_BUSINESS":
+                element.setAttribute("Cat", "仕事");
+                break;
+            case "CAT_TEMPLE":
+                element.setAttribute("Cat", "神社・仏閣");
+                break;
+            case "CAT_MUSEUM":
+                element.setAttribute("Cat", "美術館・博物館");
+                break;
+            case "CAT_HOSPITAL":
+                element.setAttribute("Cat", "病院");
+                break;
+            case "CAT_GOVERMENT":
+                element.setAttribute("Cat", "役所");
+                break;
+            case "CAT_RESTAURANT":
+                element.setAttribute("Cat", "レストラン");
+                break;
+            default:
+                element.setAttribute("Cat", "その他");
+        }
+
+        const serializer = new XMLSerializer();
+        form.elements['gpxFileContent'].value = serializer.serializeToString(xmlDoc);
+    }
+
 }
 
 function getRegTime() {
