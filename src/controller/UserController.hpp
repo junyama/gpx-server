@@ -123,7 +123,7 @@ public:
   }
   ENDPOINT("GET", "getNumberOfRecords", getNumberOfRecords)
   {
-    return createDtoResponse(Status::CODE_200, m_userService.countUsers());
+    return createDtoResponse(Status::CODE_200, m_userService.countUsers(nullptr));
   }
 
   ENDPOINT_INFO(exportGpx)
@@ -207,7 +207,7 @@ public:
   }
   ENDPOINT("POST", "getNumberOfFilteredRecords", getNumberOfFilteredRecords, BODY_DTO(Object<UserDto>, userDto))
   {
-    return createDtoResponse(Status::CODE_200, m_userService.countFilteredUsers(userDto)); 
+    return createDtoResponse(Status::CODE_200, m_userService.countUsers(userDto)); 
   }
 };
 

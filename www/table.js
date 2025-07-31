@@ -67,15 +67,22 @@ function applyFilter() {
     loadDb((CurrentPage - 1) * Limit, Limit);
     document.getElementById("numEntryId").value = "-----";
     numberOfRecords();
+}
+
+function resetFilter() {
     Filter = false;
+    CurrentPage = 1;
+    loadDb((CurrentPage - 1) * Limit, Limit);
+    //need to reset page menu
+    numberOfRecords();
 }
 
 function createFilterJsonStr(index) {
     let json = {};
     //
     let value = document.getElementById("poiNameFilterId").value;
-    if (value) json.poi_namae = value;
-    else json.poi_namae = "*";
+    if (value) json.poi_name = value;
+    else json.poi_name = "*";
     json.address1 = document.getElementById("prefectureFilterId").value;
     value = document.getElementById("cityFilterId").value;
     if (value) json.address2 = value;
@@ -144,7 +151,7 @@ function loadDb(offset, limit) {
 function createRow(json) {
     var tr = document.createElement("tr");
     var td = document.createElement('td');
-    td.innerHTML = '<span class="custom-checkbox"><input type="checkbox" id="checkbox' + json.id + '" name="options[]" value="1"><label for="checkbox' + json.id + '"></label></span>';
+    td.innerHTML = '<span class="custom-checkbox"><input type="checkbox" id="checkbox' + json.id + '" onchange="updateChakedList()" name="options[]" value="1"><label for="checkbox' + json.id + '"></label></span>';
     tr.appendChild(td);
     td = document.createElement('td');
     td.innerHTML = json.id;
@@ -226,23 +233,28 @@ function createRow(json) {
     }
     td.innerHTML = iconId;
     tr.appendChild(td);
+    /*
     td = document.createElement('td');
     if (json.poi_file_name)
         td.innerHTML = json.poi_file_name;
     else
         td.innerHTML = "POI_" + json.latitude + "x" + json.longtitude + ".gpx";
     tr.appendChild(td);
+    */
     td = document.createElement('td');
     td.innerHTML = json.reg_time;
     tr.appendChild(td);
 
     td = document.createElement('td');
     let str;
-    str = '<button type="button" class="bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" style="margin-right: 10px; background: transparent; border: 0; font-size: 16px; color: orange"';
+    str = '<button type="button" class="bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" style="background: transparent; border: 0; font-size: 15px; color: orange"';
     str = str + ' onClick="editRecord(' + json.id + ')">';
     str = str + '</button>';
-    str = str + '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: red"';
-    str = str + ' onClick="deleteRecord(' + json.id + ')">';
+    str = str + '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 15px; color: red"';
+    str = str + ' onClick="deleteRecord(' + json.id + ', this)">';
+    str = str + '</button>';
+    str = str + '<button type="button" class="bi bi-geo-alt-fill" style="background: transparent; border: 0; font-size: 15px; color: black"';
+    str = str + ' onClick="showPlace(this)">';
     str = str + '</button>';
     td.innerHTML = str;
     tr.appendChild(td);
@@ -255,6 +267,7 @@ function addRow(json, i) {
     document.getElementById("tableBody").appendChild(createRow(json, i));
 }
 
+/*
 function addRow2(json, i) {
 
     //PageIndexArray.push(json.id); //added
@@ -359,13 +372,14 @@ function addRow2(json, i) {
     str = str + ' onClick="editRecord(' + json.id + ')">';
     str = str + '</button>';
     str = str + '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: red"';
-    str = str + ' onClick="deleteRecord(' + json.id + ')">';
+    str = str + ' onClick="deleteRecord(' + json.id + ', this)">';
     str = str + '</button>';
     td.innerHTML = str;
     tr.appendChild(td);
     console.log(tr);
     document.getElementById("tableBody").appendChild(tr);
 }
+*/
 
 /*
 function deleteUser(id) {
@@ -390,6 +404,17 @@ function deleteUser(id) {
     }
 }
 */
+function updateChakedList() {
+    let poiListStr = "";
+    for (i = 0; i < checkbox.length; i++) {
+        if (checkbox[i].checked) {
+            if (poiListStr != "")
+                poiListStr += ", ";
+            poiListStr += checkbox[i].parentElement.parentElement.parentElement.children[2].innerHTML;
+        }
+    }
+    document.getElementById("deleteRecordsId").innerHTML = poiListStr;
+}
 
 function deleteCheckedUsers(i, count) {
     if (i < count) {

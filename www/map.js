@@ -1,14 +1,18 @@
 let map;
-let center;
-async function initMap() {
+let centerCordinates = { lat: 35.455851, lng: 139.35875 };
+let placeTitle = "displayName";
+async function initMap(op) {
     const { Map } = await google.maps.importLibrary("maps");
-    center = { lat: 37.4161493, lng: -122.0812166 };
+    //centerCordinates = { lat: 37.4161493, lng: -122.0812166 };
     map = new Map(document.getElementById('map'), {
-        center: center,
-        zoom: 14,
+        center: centerCordinates,
+        zoom: 16,
         mapId: 'DEMO_MAP_ID',
     });
-    findPlaces();
+    switch (op) {
+        case 1: findPlaces();
+        case 2: getPlaceDetails();
+    }
 }
 
 
@@ -69,7 +73,7 @@ async function findPlaces() {
             console.log(value);
             form.elements["address3"].value = value;
             document.getElementById("addressInputId").value = place.formattedAddress;
-            
+
         });
         map.fitBounds(bounds);
         map.setZoom(18);
@@ -79,3 +83,49 @@ async function findPlaces() {
     }
 }
 //initMap();
+
+//let centerCoordinates = { lat: 37.4161493, lng: -122.0812166 };
+/*
+async function initMap2() {
+    const { Map } = await google.maps.importLibrary("maps");
+    map = new Map(document.getElementById('map'), {
+        center: centerCoordinates,
+        zoom: 14,
+        // ...
+    });
+    getPlaceDetails();
+}
+*/
+
+async function getPlaceDetails() {
+    const { Place } = await google.maps.importLibrary("places");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    /*
+    // Use place ID to create a new Place instance.
+    const place = new Place({
+        id: 'ChIJ-ZTr7QQAGWARHbjixokJelo',
+        requestedLanguage: 'ja', // optional
+    });
+    // Call fetchFields, passing the desired data fields.
+    await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] });
+    // Log the result
+    console.log(place.displayName);
+    console.log(place.formattedAddress);
+    */
+    // Add an Advanced Marker
+    const marker = new AdvancedMarkerElement({
+        map,
+        position: centerCordinates,
+        title: placeTitle,
+    });
+}
+
+function showPlace(elem) {
+    console.log("showPlace()");
+    let lat = Number(elem.parentElement.parentElement.children[3].innerText);
+    let lng = Number(elem.parentElement.parentElement.children[4].innerText);
+    centerCordinates.lat = lat;
+    centerCordinates.lng = lng;
+    placeTitle = elem.parentElement.parentElement.children[2].innerText;
+    initMap(2);
+}

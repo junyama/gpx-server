@@ -86,6 +86,7 @@ function createNewRecord() {
                 alert(json.responseJSON.message);
             }
         });
+        pageJump("l");
     }
     catch (error) {
         console.error(error.message);
@@ -242,9 +243,11 @@ function getRecords(offset, limit) {
 }
 
 let actionId;
-function deleteRecord(id) {
+function deleteRecord(id, elem) {
     if (id) {
         actionId = id;
+        let poiName = elem.parentElement.parentElement.children[2].innerHTML;
+        document.getElementById("deleteRecordsId").innerHTML = poiName;
     } else if (actionId) {
         $.ajax({
             url: "users/" + actionId, // The URL to send the request to
@@ -285,7 +288,9 @@ function registerPoi() {
 
 function registerPOI() {
     let form = document.forms["createUser"];
-    let value = document.getElementById("categorySelectorId").value;
+    let value = document.getElementById("poiNameInputId").value;
+    form.elements["poiName"].value = value;
+    value = document.getElementById("categorySelectorId").value;
     form.elements["category"].value = value;
     value = document.getElementById("iconSelectorId").value;
     form.elements["iconId"].value = value;
