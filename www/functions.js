@@ -81,12 +81,13 @@ function createNewRecord() {
                 loadDb((CurrentPage - 1) * Limit, Limit);
                 checkbox = $('table tbody input[type="checkbox"]');
                 //document.getElementById("numEntryId").innerHTML = 'Showing <b>' + Limit + '</b> out of <b>' + (++NumEntry) + '</b> entries';
+                alert(json.id + ": " + json.poi_name + " has been added");
             },
             error: function (json) {
                 alert(json.responseJSON.message);
             }
         });
-        pageJump("l");
+        //pageJump("l");
     }
     catch (error) {
         console.error(error.message);

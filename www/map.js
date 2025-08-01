@@ -47,6 +47,7 @@ async function findPlaces() {
             });
             bounds.extend(place.location);
             let form = document.forms["createUser"];
+            console.log(place.id);
             let value = place.displayName;
             console.log(value);
             document.getElementById("poiNameInputId").value = value;

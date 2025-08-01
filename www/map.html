@@ -85,9 +85,8 @@
                         <input type="text" class="form-control-sm" id="poiNameFilterId" placeholder="POI Name">
                     </div>
                     <div class="col">
-                        <select name="prefectureSelector" class="form-select-sm" id="prefectureFilterId"
-                            onchange="//updateChickIdSelectorOptions(this);">
-                            <option value="*" disabled selected>Prefecture</option>
+                        <select name="prefectureSelector" class="form-select-sm" id="prefectureFilterId">
+                            <option value="*" selected>Select Prefecture</option>
                             <option value="北海道">北海道</option>
                             <option value="青森県">青森県</option>
                             <option value="岩手県">岩手県</option>
@@ -148,7 +147,7 @@
                     </div>
                     <div class="col">
                         <select name="categorySelector" class="form-select-sm" id="categoryFilterId">
-                            <option value="CAT_UNDEFINED" disabled selected>Category</option>
+                            <option value="CAT_UNDEFINED" selected>Select Category</option>
                             <option value="CAT_TRAVEL">観光地</option>
                             <option value="CAT_CAR">車</option>
                             <option value="CAT_THEATER">劇場</option>
@@ -165,7 +164,7 @@
                     </div>
                     <div class="col">
                         <select name="iconSelector" class="form-select-sm" id="iconFilterId">
-                            <option value=0 disabled selected>Icon</option>
+                            <option value=0 selected>Select Icon</option>
                             <option value=1>目的地＠</option>
                             <option value=6>カメラ</option>
                             <option value=7>ハート</option>
@@ -200,9 +199,9 @@
                     </div>
                     <div class="col">
                         <div class="d-grid gap-2 col-12 mx-auto">
-                            <input type="text" class="form-control-sm" id="numEntryId" value="------">
+                            <input type="text" class="form-control-sm" id="numEntryId" readonly value="------">
                         </div>
-                    </div>
+                    </div> 
                     <div class="col">
                         <div class="d-grid gap-2 col-12 mx-auto">
                             <input id="numberOfRecordsButtonId" type="button" class="btn btn-outline-primary btn-sm"
@@ -222,7 +221,78 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row m-2">
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <input type="text" class="form-control-sm" id="keyWord" placeholder="Key words">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <input type="button" class="btn btn-outline-primary btn-sm" id="btn_search" value="Search"
+                                onclick="initMap(1);">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <div class="d-grid gap-2 col-15 mx-auto">
+                                <input type="text" class="form-control-sm" id="poiNameInputId" placeholder="POI Nama">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <div class="d-grid gap-2 col-15 mx-auto">
+                                <input type="text" class="form-control-sm" id="addressInputId" readonly placeholder="Address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <div class="d-grid gap-2 col-12 mx-auto">
+                                <select name="category" class="form-control-sm" id="categorySelectorId">
+                                    <option value="CAT_UNDEFINED" selected disabled>Select Category</option>
+                                    <option value='CAT_TRAVEL'>観光地</option>
+                                    <option value='CAT_CAR'>車</option>
+                                    <option value='CAT_THEATER'>劇場</option>
+                                    <option value='CAT_SHOPPING'>ショッピング</option>
+                                    <option value='CAT_BUSINESS'>仕事</option>
+                                    <option value='CAT_TEMPLE'>神社・仏閣</option>
+                                    <option value='CAT_MUSEUM'>美術館・博物館</option>
+                                    <option value='CAT_HOTEL'>ホテル・旅館</option>
+                                    <option value='CAT_HOSPITAL'>病院</option>
+                                    <option value='CAT_GOVERMENT'>役所</option>
+                                    <option value='CAT_RESTAURANT'>レストラン</option>
+                                    <option value='CAT_OTHERS'>その他</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <div class="d-grid gap-2 col-12 mx-auto">
+                                <select name="iconId" class="form-control-sm" id="iconSelectorId">
+                                    <option value=0 selected disabled>Select Icon</option>
+                                    <option value=1>目的地＠</option>
+                                    <option value=6>カメラ</option>
+                                    <option value=7>ハート</option>
+                                    <option value=11>レストラン</option>
+                                    <option value=12>マップピン</option>
+                                    <option value=13>車</option>
+                                    <option value=14>ホテル</option>
+                                    <option value=15>ショッピング</option>
+                                    <option value=19>目的地</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <input type="button" class="btn btn-outline-primary btn-sm" value="Register"
+                                onclick='registerPOI()'>
+                        </div>
+                    </div>
+                </div>
                 <!--<table width="100%" border="0" cellspacing="2" cellpadding="2" bordercolor="black">
                     <tbody>
                         <tr>
@@ -589,75 +659,7 @@
         </div>
     </div>
 
-    <div class="row m-2">
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <input type="text" class="form-control-sm" id="keyWord" placeholder="Key words">
-            </div>
-        </div>
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <input type="button" class="btn btn-outline-primary btn-sm" id="btn_search" value="Search"
-                    onclick="initMap(1);">
-            </div>
-        </div>
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <div class="d-grid gap-2 col-15 mx-auto">
-                    <input type="text" class="form-control-sm" id="poiNameInputId" placeholder="POI Nama">
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <div class="d-grid gap-2 col-15 mx-auto">
-                    <input type="text" class="form-control-sm" id="addressInputId" placeholder="Address">
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <div class="d-grid gap-2 col-12 mx-auto">
-                    <select name="category" class="form-control-sm" id="categorySelectorId">
-                        <option value='CAT_TRAVEL'>観光地</option>
-                        <option value='CAT_CAR'>車</option>
-                        <option value='CAT_THEATER'>劇場</option>
-                        <option value='CAT_SHOPPING'>ショッピング</option>
-                        <option value='CAT_BUSINESS'>仕事</option>
-                        <option value='CAT_TEMPLE'>神社・仏閣</option>
-                        <option value='CAT_MUSEUM'>美術館・博物館</option>
-                        <option value='CAT_HOTEL'>ホテル・旅館</option>
-                        <option value='CAT_HOSPITAL'>病院</option>
-                        <option value='CAT_GOVERMENT'>役所</option>
-                        <option value='CAT_RESTAURANT'>レストラン</option>
-                        <option value='CAT_OTHERS'>その他</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <div class="d-grid gap-2 col-12 mx-auto">
-                    <select name="iconId" class="form-control-sm" id="iconSelectorId">
-                        <option value=1>目的地＠</option>
-                        <option value=6>カメラ</option>
-                        <option value=7>ハート</option>
-                        <option value=11>レストラン</option>
-                        <option value=12>マップピン</option>
-                        <option value=13>車</option>
-                        <option value=14>ホテル</option>
-                        <option value=15>ショッピング</option>
-                        <option value=19>目的地</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="d-grid gap-2 col-12 mx-auto">
-                <input type="button" class="btn btn-outline-primary btn-sm" value="Register" onclick='registerPOI()'>
-            </div>
-        </div>
-    </div>
+
 
     <div id="map"></div>
 

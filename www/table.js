@@ -70,10 +70,14 @@ function applyFilter() {
 }
 
 function resetFilter() {
+    document.getElementById("prefectureFilterId").value = "*";
+    document.getElementById("categoryFilterId").value = "CAT_UNDEFINED";
+    document.getElementById("iconFilterId").value = 0;
     Filter = false;
     CurrentPage = 1;
     loadDb((CurrentPage - 1) * Limit, Limit);
-    //need to reset page menu
+    pageJump(1);
+    createPageMenu(PageMenuLength);
     numberOfRecords();
 }
 
@@ -247,13 +251,13 @@ function createRow(json) {
 
     td = document.createElement('td');
     let str;
-    str = '<button type="button" class="bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" style="background: transparent; border: 0; font-size: 15px; color: orange"';
+    str = '<button type="button" class="bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: green"';
     str = str + ' onClick="editRecord(' + json.id + ')">';
     str = str + '</button>';
-    str = str + '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 15px; color: red"';
+    str = str + '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: red"';
     str = str + ' onClick="deleteRecord(' + json.id + ', this)">';
     str = str + '</button>';
-    str = str + '<button type="button" class="bi bi-geo-alt-fill" style="background: transparent; border: 0; font-size: 15px; color: black"';
+    str = str + '<button type="button" class="bi bi-geo-alt-fill" style="background: transparent; border: 0; font-size: 16px; color: blue"'; 
     str = str + ' onClick="showPlace(this)">';
     str = str + '</button>';
     td.innerHTML = str;
@@ -744,6 +748,9 @@ function updateGpx(form) {
                 break;
             case "CAT_MUSEUM":
                 element.setAttribute("Cat", "美術館・博物館");
+                break;
+            case "CAT_HOTEL":
+                element.setAttribute("Cat", "ホテル・旅館");
                 break;
             case "CAT_HOSPITAL":
                 element.setAttribute("Cat", "病院");
