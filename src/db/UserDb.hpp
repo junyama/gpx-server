@@ -30,8 +30,8 @@ public:
 
       QUERY(createUser,
             "INSERT INTO AppUser"
-            "(username, poi_name, latitude, longtitude, address1, address2, address3, zip, category, icon_id, poi_file_name, reg_time, gpx) VALUES "
-            "(:user.username, :user.poi_name, :user.latitude, :user.longtitude, :user.address1, :user.address2, :user.address3, :user.zip, :user.category, :user.icon_id, :user.poi_file_name, :user.reg_time, :user.gpx);",
+            "(username, poi_name, latitude, longtitude, address1, address2, address3, zip, category, icon_id, poi_file_name, reg_time, gpx, full_address, place_id) VALUES "
+            "(:user.username, :user.poi_name, :user.latitude, :user.longtitude, :user.address1, :user.address2, :user.address3, :user.zip, :user.category, :user.icon_id, :user.poi_file_name, :user.reg_time, :user.gpx, :user.full_address, :user.place_id);",
             PARAM(oatpp::Object<UserDto>, user))
 
       QUERY(updateUser,
@@ -49,7 +49,9 @@ public:
             " icon_id=:user.icon_id, "
             " poi_file_name=:user.poi_file_name, "
             " reg_time=:user.reg_time, "
-            " gpx=:user.gpx "
+            " gpx=:user.gpx ,"
+            " full_address=:user.full_address, "
+            " place_id=:user.place_id "
 
             "WHERE "
             " id=:user.id;",

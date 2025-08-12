@@ -47,6 +47,7 @@ async function findPlaces() {
             });
             bounds.extend(place.location);
             let form = document.forms["createUser"];
+            form.elements["placeId"].value = place.id;
             console.log(place.id);
             let value = place.displayName;
             console.log(value);
@@ -74,10 +75,11 @@ async function findPlaces() {
             console.log(value);
             form.elements["address3"].value = value;
             document.getElementById("addressInputId").value = place.formattedAddress;
+            form.elements["fullAddress"].value = place.formattedAddress;
 
         });
         map.fitBounds(bounds);
-        map.setZoom(18);
+        map.setZoom(16);
     }
     else {
         alert('No results');
@@ -123,6 +125,11 @@ async function getPlaceDetails() {
 
 function showPlace(elem) {
     console.log("showPlace()");
+    document.getElementById("poiNameInputId").value = elem.parentElement.parentElement.children[2].innerText;
+    document.getElementById("addressInputId").value = elem.parentElement.parentElement.children[14].innerText;
+    document.getElementById("categorySelectorId").value = catNameToValue (elem.parentElement.parentElement.children[9].innerText);
+    document.getElementById("iconSelectorId").value = iconNameToValue(elem.parentElement.parentElement.children[10].innerText);
+
     let lat = Number(elem.parentElement.parentElement.children[3].innerText);
     let lng = Number(elem.parentElement.parentElement.children[4].innerText);
     centerCordinates.lat = lat;

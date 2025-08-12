@@ -201,7 +201,7 @@
                         <div class="d-grid gap-2 col-12 mx-auto">
                             <input type="text" class="form-control-sm" id="numEntryId" readonly value="------">
                         </div>
-                    </div> 
+                    </div>
                     <div class="col">
                         <div class="d-grid gap-2 col-12 mx-auto">
                             <input id="numberOfRecordsButtonId" type="button" class="btn btn-outline-primary btn-sm"
@@ -222,221 +222,66 @@
                     </div>
                 </div>
                 <div class="row m-2">
-                    <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <input type="text" class="form-control-sm" id="keyWord" placeholder="Key words">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Key words</label>
+                            <input type="search" class="form-control" id="keyWord" placeholder="Key words">
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <input type="button" class="btn btn-outline-primary btn-sm" id="btn_search" value="Search"
+                        <div class="d-grid gap-2 col-12 mx-auto" style="margin: 10px 0 20px;">
+                            <input type="button" class="btn btn-primary btn" id="btn_search" value="Search"
                                 onclick="initMap(1);">
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <div class="d-grid gap-2 col-15 mx-auto">
-                                <input type="text" class="form-control-sm" id="poiNameInputId" placeholder="POI Nama">
-                            </div>
+                        <div class="form-group">
+                            <label>POI Nama</label>
+                            <input type="text" class="form-control" id="poiNameInputId">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" id="addressInputId"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select name="category" class="form-control" id="categorySelectorId">
+                                <option value='CAT_TRAVEL'>観光地</option>
+                                <option value='CAT_CAR'>車</option>
+                                <option value='CAT_THEATER'>劇場</option>
+                                <option value='CAT_SHOPPING'>ショッピング</option>
+                                <option value='CAT_BUSINESS'>仕事</option>
+                                <option value='CAT_TEMPLE'>神社・仏閣</option>
+                                <option value='CAT_MUSEUM'>美術館・博物館</option>
+                                <option value='CAT_HOTEL'>ホテル・旅館</option>
+                                <option value='CAT_HOSPITAL'>病院</option>
+                                <option value='CAT_GOVERMENT'>役所</option>
+                                <option value='CAT_RESTAURANT'>レストラン</option>
+                                <option value='CAT_OTHERS'>その他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Icon</label>
+                            <select name="iconId" class="form-control" id="iconSelectorId">
+                                <option value=1>目的地＠</option>
+                                <option value=6>カメラ</option>
+                                <option value=7>ハート</option>
+                                <option value=11>レストラン</option>
+                                <option value=12>マップピン</option>
+                                <option value=13>車</option>
+                                <option value=14>ホテル</option>
+                                <option value=15>ショッピング</option>
+                                <option value=19>目的地</option>
+                            </select>
+                        </div>
+                        <div class="d-grid gap-2 col-12 mx-auto" style="margin: 10px;">
+                            <input type="button" class="btn btn-success btn" value="Register" onclick='registerPOI()'>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <div class="d-grid gap-2 col-15 mx-auto">
-                                <input type="text" class="form-control-sm" id="addressInputId" readonly placeholder="Address">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <div class="d-grid gap-2 col-12 mx-auto">
-                                <select name="category" class="form-control-sm" id="categorySelectorId">
-                                    <option value="CAT_UNDEFINED" selected disabled>Select Category</option>
-                                    <option value='CAT_TRAVEL'>観光地</option>
-                                    <option value='CAT_CAR'>車</option>
-                                    <option value='CAT_THEATER'>劇場</option>
-                                    <option value='CAT_SHOPPING'>ショッピング</option>
-                                    <option value='CAT_BUSINESS'>仕事</option>
-                                    <option value='CAT_TEMPLE'>神社・仏閣</option>
-                                    <option value='CAT_MUSEUM'>美術館・博物館</option>
-                                    <option value='CAT_HOTEL'>ホテル・旅館</option>
-                                    <option value='CAT_HOSPITAL'>病院</option>
-                                    <option value='CAT_GOVERMENT'>役所</option>
-                                    <option value='CAT_RESTAURANT'>レストラン</option>
-                                    <option value='CAT_OTHERS'>その他</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <div class="d-grid gap-2 col-12 mx-auto">
-                                <select name="iconId" class="form-control-sm" id="iconSelectorId">
-                                    <option value=0 selected disabled>Select Icon</option>
-                                    <option value=1>目的地＠</option>
-                                    <option value=6>カメラ</option>
-                                    <option value=7>ハート</option>
-                                    <option value=11>レストラン</option>
-                                    <option value=12>マップピン</option>
-                                    <option value=13>車</option>
-                                    <option value=14>ホテル</option>
-                                    <option value=15>ショッピング</option>
-                                    <option value=19>目的地</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <input type="button" class="btn btn-outline-primary btn-sm" value="Register"
-                                onclick='registerPOI()'>
-                        </div>
+                        <div id="map"></div>
                     </div>
                 </div>
-                <!--<table width="100%" border="0" cellspacing="2" cellpadding="2" bordercolor="black">
-                    <tbody>
-                        <tr>
-                            <td align='center' valign='top'>
-                                <form id="addForm" action="">
-                                    <table width="100%" border="0" cellspacing="2" cellpadding="2" bordercolor="blue">
-                                        <tbody>
-                                            <tr>
-                                                <td colspan='2'>
-                                                    <b><span class="en">Address or Keywords</span></b>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input type="text" id="address" size="20" value="" />
-                                                </td>
-
-                                                <td>
-                                                    <input type="button" id="addressbtn" value="Search"
-                                                        style="width:100%" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><b><span class="en">Latitude</span></b></td>
-                                                <td><b><span class="en">Longitude</span></b></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="float" id="latitude" name="latitude" size="20" />
-                                                </td>
-                                                <td><input type="float" id="longtitude" name="longtitude" size="20" />
-                                                </td>
-                                            </tr>
-                                            <tr height="50" valign='bottom'>
-                                                <td><b><span class="en">POI Name</span></b></td>
-                                                <td><b><span class="en">POI File Name</span></b></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <input type="text" name="POIName" id="POIName" size="20" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="POIFileName" id="POIFileName" size="20" />
-                                                </td>
-                                            </tr>
-                                            <td>
-                                                <b><span class="en">Category</span></b>
-                                            </td>
-                                            <td>
-                                                <b><span class="en">Icon</span></b>
-                                            </td>
-                                            <tr>
-                                                <td>
-                                                    <select name="category" id="category" onChange="chooseIcon()">
-                                                        <option id="categoryIndex1" value="観光地">観光地</option>
-                                                        <option id="categoryIndex2" value="車">車</option>
-                                                        <option id="categoryIndex3" value="劇場">劇場</option>
-                                                        <option id="categoryIndex4" value="仕事">仕事</option>
-                                                        <option id="categoryIndex5" value="ショッピング">ショッピング</option>
-                                                        <option id="categoryIndex6" value="神社・仏閣">神社・仏閣</option>
-                                                        <option id="categoryIndex7" value="美術館・博物館">美術館・博物館</option>
-                                                        <option id="categoryIndex8" value="ホテル・旅館">ホテル・旅館</option>
-                                                        <option id="categoryIndex9" value="病院・介護施設">病院・介護施設</option>
-                                                        <option id="categoryIndex10" value="役所">役所</option>
-                                                        <option id="categoryIndex11" value="レストラン">レストラン</option>
-                                                        <option id="categoryIndex12" value="その他">その他</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select name="icon" id="icon">
-                                                        <option id="iconIndex1" value="1">目的地＠</option>
-                                                        <option id="iconIndex2" value="6">カメラ</option>
-                                                        <option id="iconIndex3" value="7">ハート</option>
-                                                        <option id="iconIndex4" value="11">レストラン</option>
-                                                        <option id="iconIndex5" value="12">マップピン</option>
-                                                        <option id="iconIndex6" value="13">車</option>
-                                                        <option id="iconIndex7" value="14">ホテル</option>
-                                                        <option id="iconIndex8" value="15">ショッピング</option>
-                                                        <option id="iconIndex9" value="19">目的地</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b><span class="en">Zip code</span></b>
-                                                </td>
-                                                <td>
-                                                    <b><span class="en">Prefecture</span></b>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input type="text" name="zipCode" id="zipCode" size="20" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="state" id="state" size="20" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b><span class="en">City</span></b>
-                                                </td>
-                                                <td>
-                                                    <b><span class="en">Town</span></b>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input type="text" name="city" id="city" size="20" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="exCity" id="exCity" size="20" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input type="hidden" id="languageField" name="languageField"
-                                                        value="en" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan='2' height="50" valign='bottom'>
-                                                    <input type="button" id="registerBtn" value="Register"
-                                                        style="width:100%" onclick="registerPoi()" />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
-                                
-                            </td>
-                            <td align='center' valign='center'>
-                                <div id="map_canvas" style="width: 1150px">
-                                    <gmp-map center="37.4220656,-122.0840897" zoom="10" map-id="DEMO_MAP_ID"
-                                        style="height: 450px"><gmp-advanced-marker position="37.4220656,-122.0840897"
-                                            title="Mountain View, CA"></gmp-advanced-marker></gmp-map>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>-->
             </div>
         </div>
     </div>
+
     <!-- Add Modal HTML -->
     <div id="addEmployeeModal" class="modal fade" value="0">
         <div id="add-id" hidden></div>
@@ -477,6 +322,10 @@
                             <input name="zip" type="text" class="form-control" value="875-0042" required>
                         </div>
                         <div class="form-group">
+                            <label>Full address</label>
+                            <input name="fullAddress" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label>Category</label>
                             <select name="category" class="form-control">
                                 <option value='CAT_TRAVEL'>観光地</option>
@@ -515,6 +364,10 @@
                             <label>POI file name</label>
                             <input name="poiFileName" type="text" class="form-control"
                                 value="POI_33.118946x131.806963.gpx" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Place ID</label>
+                            <input name="placeId" type="text" class="form-control" value="" required>
                         </div>
                         <div class="form-group">
                             <label>gpx file</label>
@@ -574,6 +427,10 @@
                             <input name="zip" type="text" class="form-control" value="875-0042" required>
                         </div>
                         <div class="form-group">
+                            <label>Full address</label>
+                            <input name="fullAddress" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label>Category</label>
                             <select name="category" class="form-control">
                                 <option value='CAT_TRAVEL'>観光地</option>
@@ -612,6 +469,10 @@
                             <label>POI file name</label>
                             <input name="poiFileName" type="text" class="form-control"
                                 value="POI_33.118946x131.806963.gpx" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Place ID</label>
+                            <input name="placeId" type="text" class="form-control" value="" required>
                         </div>
                         <div class="form-group">
                             <label>gpx file</label>
@@ -659,9 +520,6 @@
         </div>
     </div>
 
-
-
-    <div id="map"></div>
 
     <!-- prettier-ignore -->
     <script>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })

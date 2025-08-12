@@ -71,6 +71,8 @@ function applyFilter() {
 
 function resetFilter() {
     document.getElementById("prefectureFilterId").value = "*";
+    document.getElementById("cityFilterId").value = "";
+    document.getElementById("townFilterId").value = "";
     document.getElementById("categoryFilterId").value = "CAT_UNDEFINED";
     document.getElementById("iconFilterId").value = 0;
     Filter = false;
@@ -182,6 +184,10 @@ function createRow(json) {
     td.innerHTML = json.zip;
     tr.appendChild(td);
     td = document.createElement('td');
+
+    td.innerHTML = catValueToName(json.category);
+
+    /*
     var category;
     switch (json.category) {
         case "CAT_TRAVEL": category = "観光地";
@@ -194,11 +200,11 @@ function createRow(json) {
             break;
         case "CAT_BUSINESS": category = "仕事";
             break;
-        case "CAT_TEMPLE": category = "神社、仏閣";
+        case "CAT_TEMPLE": category = "神社・仏閣";
             break;
-        case "CAT_MUSEUM": category = "美術館、博物館";
+        case "CAT_MUSEUM": category = "美術館・博物館";
             break;
-        case "CAT_HOTEL": category = "ホテル、旅館";
+        case "CAT_HOTEL": category = "ホテル・旅館";
             break;
         case "CAT_HOSPITAL": category = "病院";
             break;
@@ -211,6 +217,7 @@ function createRow(json) {
         default: category = "Unknown";
     }
     td.innerHTML = category;
+    */
     tr.appendChild(td);
     td = document.createElement('td');
     let iconId;
@@ -252,16 +259,27 @@ function createRow(json) {
     td = document.createElement('td');
     let str;
     str = '<button type="button" class="bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: green"';
-    str = str + ' onClick="editRecord(' + json.id + ')">';
-    str = str + '</button>';
-    str = str + '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: red"';
-    str = str + ' onClick="deleteRecord(' + json.id + ', this)">';
-    str = str + '</button>';
-    str = str + '<button type="button" class="bi bi-geo-alt-fill" style="background: transparent; border: 0; font-size: 16px; color: blue"'; 
-    str = str + ' onClick="showPlace(this)">';
-    str = str + '</button>';
+    str += ' onClick="editRecord(' + json.id + ')">';
+    str += '</button>';
+    str += '<button type="button" class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" style="background: transparent; border: 0; font-size: 16px; color: red"';
+    str += ' onClick="deleteRecord(' + json.id + ', this)">';
+    str += '</button>';
+    str += '<button type="button" class="bi bi-geo-alt-fill" style="background: transparent; border: 0; font-size: 16px; color: blue"';
+    str += ' onClick="showPlace(this)">';
+    str += '</button>';
     td.innerHTML = str;
     tr.appendChild(td);
+
+    td = document.createElement('td');
+    td.innerHTML = json.place_id;
+    td.style = "display:none";
+    tr.appendChild(td);
+    td = document.createElement('td');
+    td.innerHTML = json.full_address;
+    td.style = "display:none";
+    tr.appendChild(td);
+
+
     console.log(tr);
     return tr;
     //document.getElementById("tableBody").appendChild(tr);
@@ -317,11 +335,11 @@ function addRow2(json, i) {
             break;
         case "CAT_BUSINESS": category = "仕事";
             break;
-        case "CAT_TEMPLE": category = "神社、仏閣";
+        case "CAT_TEMPLE": category = "神社・仏閣";
             break;
-        case "CAT_MUSEUM": category = "美術館、博物館";
+        case "CAT_MUSEUM": category = "美術館・博物館";
             break;
-        case "CAT_HOTEL": category = "ホテル、旅館";
+        case "CAT_HOTEL": category = "ホテル・旅館";
             break;
         case "CAT_HOSPITAL": category = "病院";
             break;
@@ -661,6 +679,9 @@ function importGpx(xmlString, formName) {
         element = xmlDoc.getElementsByTagName("gpxd:WptIconId")[0];
         form.elements["iconId"].value = element.getAttribute("IconId");
         element = xmlDoc.getElementsByTagName("gpxd:POICategory")[0];
+
+        form.elements["category"].value = catNameToValue(element.getAttribute("Cat"));
+        /*
         switch (element.getAttribute("Cat")) {
             case "観光地":
                 form.elements["category"].value = 'CAT_TRAVEL';
@@ -695,6 +716,7 @@ function importGpx(xmlString, formName) {
             default:
                 form.elements["category"].value = 'CAT_OTHERS';
         }
+        */
     }
 }
 
@@ -825,3 +847,85 @@ function exportGpx() {
         });
     }
 */
+
+function catNameToValue(categoryName) {
+    switch (categoryName) {
+        case "観光地":
+            return 'CAT_TRAVEL';
+        case "車":
+            return 'CAT_CAR';
+        case "劇場":
+            return 'CAT_THEATER';
+        case "ショッピング":
+            return 'CAT_SHOPPING';
+        case "仕事":
+            return 'CAT_BUSINESS';
+        case "神社・仏閣":
+            return 'CAT_TEMPLE';
+        case "美術館・博物館":
+            return 'CAT_MUSEUM';
+        case "ホテル・旅館":
+            return 'CAT_HOTEL';
+        case "病院":
+            return 'CAT_HOSPITAL';
+        case "役所":
+            return 'CAT_GOVERMENT';
+        case "レストラン":
+            return 'CAT_RESTAURANT';
+        default:
+            return 'CAT_OTHERS';
+    }
+}
+
+function catValueToName(categoryValue) {
+    switch (categoryValue) {
+        case "CAT_TRAVEL":
+            return "観光地";
+        case "CAT_CAR":
+            return "車";
+        case "CAT_THEATER":
+            return "劇場";
+        case "CAT_SHOPPING":
+            return "ショッピング";
+        case "CAT_BUSINESS":
+            return "仕事";
+        case "CAT_TEMPLE":
+            return "神社・仏閣";
+        case "CAT_MUSEUM":
+            return "美術館・博物館";
+        case "CAT_HOTEL":
+            return "ホテル・旅館";
+        case "CAT_HOSPITAL":
+            return "病院";
+        case "CAT_GOVERMENT":
+            return "役所";
+        case "CAT_RESTAURANT":
+            return "レストラン";
+        default:
+            return "その他";
+    }
+}
+
+function iconNameToValue(iconName) {
+    switch (iconName) {
+        case "目的地＠":
+            return 1;
+        case "カメラ":
+            return 6;
+        case "ハート":
+            return 7;
+        case "レストラン":
+            return 11;
+        case "マップピン":
+            return 12;
+        case "車":
+            return 13;
+        case "ホテル":
+            return 14;
+        case "ショッピング":
+            return 15;
+        case "目的地":
+            return 19;
+        default: return 0;
+    }
+}

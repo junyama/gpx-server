@@ -43,6 +43,8 @@ class UserDto : public oatpp::DTO
      DTO_FIELD(String, address2, "address2");
      DTO_FIELD(String, address3, "address3");
      DTO_FIELD(String, zip, "zip");
+     DTO_FIELD(String, fullAddress, "full_address");
+     DTO_FIELD(String, placeId, "place_id");
      DTO_FIELD(Enum<Category>::AsString, category, "category");
      DTO_FIELD(UInt8, iconId, "icon_id");
      DTO_FIELD(String, poiFileName, "poi_file_name");

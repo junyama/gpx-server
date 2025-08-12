@@ -1,4 +1,5 @@
 
+/*
 function createRecord() {
     body = JSON.stringify({
         poi_name: "poi-name" + Math.floor(Math.random() * 100001),
@@ -31,6 +32,7 @@ function createRecord() {
         }
     });
 }
+*/
 
 let actionJson = {};
 function userDtoStr(formName) {
@@ -49,6 +51,8 @@ function userDtoStr(formName) {
     if (value) actionJson.address3 = value;
     value = form.elements["zip"].value;
     if (value) actionJson.zip = value;
+    value = form.elements["fullAddress"].value;
+    if (value) actionJson.full_address = value;
     value = form.elements["category"].value;
     if (value) actionJson.category = value;
     value = form.elements["iconId"].value;
@@ -58,6 +62,8 @@ function userDtoStr(formName) {
     if (value) actionJson.poi_file_name = value;
     value = form.elements["regTime"].value;
     if (value) actionJson.reg_time = value;
+    value = form.elements["placeId"].value;
+    if (value) actionJson.place_id = value;
     updateGpx(form);
     value = form.elements["gpxFileContent"].value;
     //if (!value) form.elements["gpxFileContent"].value = GpxSample;
@@ -150,6 +156,9 @@ function editRecord(id) {
                         form.elements["poiFileName"].value = json.poi_file_name;
                         form.elements["gpxFileContent"].value = json.gpx;
                         form.elements["regTime"].value = json.reg_time;
+
+                        form.elements["fullAddress"].value = json.full_address;
+                        form.elements["placeId"].value = json.place_id;
                     },
                     error: function (json) {
                         alert(json.responseJSON.message);
