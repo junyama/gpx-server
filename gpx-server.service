@@ -1,0 +1,10 @@
+[Unit]
+Description = gpx-server service daemon
+
+[Service]
+ExecStart = /home/junichi/github/gpx-server/gpx-server.sh
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target

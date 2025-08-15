@@ -67,6 +67,7 @@ function applyFilter() {
     loadDb((CurrentPage - 1) * Limit, Limit);
     document.getElementById("numEntryId").value = "-----";
     numberOfRecords();
+    document.getElementById("firstPageButtonId").dispatchEvent(new PointerEvent("click"));
 }
 
 function resetFilter() {
