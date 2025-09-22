@@ -757,6 +757,7 @@ function updateGpx(form) {
                 break;
             case "CAT_CAR":
                 element.setAttribute("Cat", "車");
+                break;
             case "CAT_THEATER":
                 element.setAttribute("Cat", "劇場");
                 break;
