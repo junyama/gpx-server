@@ -241,7 +241,8 @@
                         </div>
                         <div class="form-group">
                             <label>Category</label>
-                            <select name="category" class="form-control" id="categorySelectorId">
+                            <select name="category" class="form-control" id="categorySelectorId"
+                                onchange="autoSelectIcon(this)">
                                 <option value='CAT_TRAVEL'>観光地</option>
                                 <option value='CAT_CAR'>車</option>
                                 <option value='CAT_THEATER'>劇場</option>
@@ -259,8 +260,8 @@
                         <div class="form-group">
                             <label>Icon</label>
                             <select name="iconId" class="form-control" id="iconSelectorId">
-                                <option value=1>目的地＠</option>
                                 <option value=6>カメラ</option>
+                                <option value=1>目的地＠</option>
                                 <option value=7>ハート</option>
                                 <option value=11>レストラン</option>
                                 <option value=12>マップピン</option>

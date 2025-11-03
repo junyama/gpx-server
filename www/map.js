@@ -62,16 +62,16 @@ async function findPlaces() {
             console.log(value);
             form.elements["longtitude"].value = value;
             let length = place.addressComponents.length;
-            value = place.addressComponents[length - 1].Gg;
+            value = place.addressComponents[length - 1].Dg;
             console.log(value);
             form.elements["zip"].value = value;
-            value = place.addressComponents[length - 3].Gg;
+            value = place.addressComponents[length - 3].Dg;
             console.log(value);
             form.elements["address1"].value = value;
-            value = place.addressComponents[length - 4].Gg;
+            value = place.addressComponents[length - 4].Dg;
             console.log(value);
             form.elements["address2"].value = value;
-            value = place.addressComponents[length - 5].Gg;
+            value = place.addressComponents[length - 5].Dg;
             console.log(value);
             form.elements["address3"].value = value;
             document.getElementById("addressInputId").value = place.formattedAddress;
@@ -127,7 +127,7 @@ function showPlace(elem) {
     console.log("showPlace()");
     document.getElementById("poiNameInputId").value = elem.parentElement.parentElement.children[2].innerText;
     document.getElementById("addressInputId").value = elem.parentElement.parentElement.children[14].innerText;
-    document.getElementById("categorySelectorId").value = catNameToValue (elem.parentElement.parentElement.children[9].innerText);
+    document.getElementById("categorySelectorId").value = catNameToValue(elem.parentElement.parentElement.children[9].innerText);
     document.getElementById("iconSelectorId").value = iconNameToValue(elem.parentElement.parentElement.children[10].innerText);
 
     let lat = Number(elem.parentElement.parentElement.children[3].innerText);
@@ -136,4 +136,23 @@ function showPlace(elem) {
     centerCordinates.lng = lng;
     placeTitle = elem.parentElement.parentElement.children[2].innerText;
     initMap(2);
+}
+
+function autoSelectIcon(selector) {
+    switch (selector.value) {
+        case "CAT_TRAVEL":
+            document.getElementById("iconSelectorId").value = 6;
+            break;
+        case "CAT_CAR":
+            document.getElementById("iconSelectorId").value = 13;
+            break;
+        case "CAT_SHOPPING":
+            document.getElementById("iconSelectorId").value = 15;
+            break;
+        case "CAT_HOTEL":
+            document.getElementById("iconSelectorId").value = 14;
+            break;
+        default:
+            document.getElementById("iconSelectorId").value = 1;
+    };
 }
